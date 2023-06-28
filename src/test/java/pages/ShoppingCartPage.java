@@ -4,9 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 public class ShoppingCartPage extends HomePage {
 
-    private static final String SHOPPING_CART_PAGE_XPATH = "//*[@id=sc-active-cart]";
+    private static final String SHOPPING_CART_PAGE_XPATH = "//id[@id=sc-active-cart]";
 
     WebDriver driver;
 
@@ -14,8 +16,13 @@ public class ShoppingCartPage extends HomePage {
         super(driver);
     }
 
-    public WebElement getShoppingCart() {
-        return  driver.findElement(By.xpath(SHOPPING_CART_PAGE_XPATH));
+//    public WebElement getShoppingCart() {
+//        return  driver.findElement(By.xpath(SHOPPING_CART_PAGE_XPATH));
+//    }
+
+    public List<WebElement> getShoppingCart() {
+        return driver.findElements(By.xpath(SHOPPING_CART_PAGE_XPATH));
     }
+
 
 }

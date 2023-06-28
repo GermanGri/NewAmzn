@@ -4,9 +4,7 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 import pages.CardDetailsPage;
 import pages.CartListPage;
 import pages.ShoppingCartPage;
@@ -14,6 +12,7 @@ import pages.HomePage;
 import pages.ChooseLocationWindow;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class MainTest {
     private final static String URL = "https://www.amazon.com/";
@@ -42,7 +41,9 @@ public class MainTest {
         chooseLocationWindow.clickOnDropdownDelivery();
         chooseLocationWindow.clickOnPortugal();
         chooseLocationWindow.clickOnDoneBtn();
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id='twotabsearchtextbox']")));
+
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(10));
 
         homePage.findGood(SEARCH_PHRASE);
 
@@ -59,7 +60,7 @@ public class MainTest {
         homePage.isHomePageValid();
         homePage.findGood(SEARCH_PHRASE);
 
-        searchCard(cartListPage, 1);
+        searchCard(cartListPage, 2);
         cardDetailsPage.clickToAddToCardButton();
         Assert.assertTrue(cardDetailsPage.isCardWasAddedToBasket());
 
@@ -67,10 +68,11 @@ public class MainTest {
 
         homePage.cartIcon().click();
 
+
+
         ShoppingCartPage shoppingCartPage = new ShoppingCartPage(driver);
         Assert.assertEquals("Amazon.com Shopping Cart", shoppingCartPage.pageVerification());
 
-        //*[@id="sc-active-a0222a6c-de8a-440e-a5cb-db9326eb75cb"]
 
 
 
@@ -104,6 +106,7 @@ public class MainTest {
 //        2. добавь две кепки  одной марки в корзину
 //
 //        3. Проверь что общая цена правильная в корзине
+
 //        4. найди женские хуй-знает что например тоже шапки
 //        4 Выбери первую которая есть в наличии
 //        5. Добавь 3 женские шапки в корзину
@@ -115,12 +118,20 @@ public class MainTest {
 //
 //        а потом мы вместе подумаем как улучшить твой код
     }
-
+// а почему это в конце?
     private static void searchCard(CartListPage cartListPage, int index) {
         Assert.assertEquals("Amazon.com : cap nike", cartListPage.pageVerification());
         Assert.assertFalse(cartListPage.isCardListIsNotEmpty());
         cartListPage.getCardItem(index).click();
     }
+
+    //TO DO
+    private static void fidnPrice(ShoppingCartPage shoppingCartPage, int index){
+        Assert.assertEquals("Amazon.com Shopping Cart", shoppingCartPage.pageVerification());
+
+    }
+
+
 
 //    @AfterEach
 //    void teardown() {
