@@ -10,6 +10,8 @@ import pages.CartListPage;
 import pages.ShoppingCartPage;
 import pages.HomePage;
 import pages.ChooseLocationWindow;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
@@ -42,14 +44,23 @@ public class MainTest {
         chooseLocationWindow.clickOnPortugal();
         chooseLocationWindow.clickOnDoneBtn();
 
-        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-                .withTimeout(Duration.ofSeconds(10));
 
+//        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+//                .withTimeout(Duration.ofSeconds(100));
+
+//      Почему???
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
+//        WebDriverWait wait = new WebDriverWait(driver, 10);
+//        WebElement element = wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("elementId"), "нужный текст"));
+
+
+//      ПОЧЕМУ??
         homePage.findGood(SEARCH_PHRASE);
 
         CartListPage cartListPage = new CartListPage(driver);
 
-        searchCard(cartListPage, 0);
+        searchCard(cartListPage, 1);
 
         CardDetailsPage cardDetailsPage = new CardDetailsPage(driver);
         cardDetailsPage.clickToAddToCardButton();
