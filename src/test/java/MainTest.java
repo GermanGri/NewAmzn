@@ -3,6 +3,7 @@ import junit.framework.Assert;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.*;
 import pages.CardDetailsPage;
@@ -15,6 +16,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MainTest {
     private final static String URL = "https://www.amazon.com/";
@@ -49,13 +52,17 @@ public class MainTest {
 //                .withTimeout(Duration.ofSeconds(100));
 
 //      Почему???
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+//        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-//        WebDriverWait wait = new WebDriverWait(driver, 10);
-//        WebElement element = wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("elementId"), "нужный текст"));
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        wait.until(ExpectedConditions.elementToBeClickable(homePage.getSearchBar()));
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
-//      ПОЧЕМУ??
         homePage.findGood(SEARCH_PHRASE);
 
         CartListPage cartListPage = new CartListPage(driver);
@@ -73,7 +80,8 @@ public class MainTest {
 
         searchCard(cartListPage, 2);
         cardDetailsPage.clickToAddToCardButton();
-        Assert.assertTrue(cardDetailsPage.isCardWasAddedToBasket());
+
+        assertTrue(cardDetailsPage.isCardWasAddedToBasket());
 
         cardDetailsPage.clickOnLogo();
 
@@ -82,7 +90,7 @@ public class MainTest {
 
 
         ShoppingCartPage shoppingCartPage = new ShoppingCartPage(driver);
-        Assert.assertEquals("Amazon.com Shopping Cart", shoppingCartPage.pageVerification());
+        Assertions.assertEquals("Amazon.com Shopping Cart", shoppingCartPage.pageVerification());
 
 
 
@@ -144,8 +152,8 @@ public class MainTest {
 
 
 
-//    @AfterEach
-//    void teardown() {
-//        driver.quit();
-//    }
+    @AfterEach
+    void teardown() {
+        driver.quit();
+    }
 }
