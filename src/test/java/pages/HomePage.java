@@ -34,7 +34,10 @@ public class HomePage {
         driver.findElement(By.xpath(LOGO_XPATH)).click();
     }
 
-    public void clickOnDelivery(){driver.findElement(By.xpath(DELIVER_TO_XPATH)).click();}
+    public WebElement getDeliveryIcon(){
+        return driver.findElement(By.xpath(DELIVER_TO_XPATH));
+    }
+    public void clickOnDelivery(){getDeliveryIcon().click();}
 
     public WebElement getSearchBar() {
         return driver.findElement(By.xpath(SEARCH_BAR_XPATH));

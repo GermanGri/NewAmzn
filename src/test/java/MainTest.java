@@ -41,8 +41,18 @@ public class MainTest {
         HomePage homePage = new HomePage(driver);
         ChooseLocationWindow chooseLocationWindow = new ChooseLocationWindow(driver);
         homePage.isHomePageValid();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
+        wait.until(ExpectedConditions.elementToBeClickable(homePage.getDeliveryIcon()));
         homePage.clickOnDelivery();
+
+//        try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+
+        wait.until(ExpectedConditions.elementToBeClickable(chooseLocationWindow.getDeliveryDropdown()));
         chooseLocationWindow.clickOnDropdownDelivery();
         chooseLocationWindow.clickOnPortugal();
         chooseLocationWindow.clickOnDoneBtn();
@@ -54,14 +64,13 @@ public class MainTest {
 //      Почему???
 //        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//        wait.until(ExpectedConditions.elementToBeClickable(homePage.getSearchBar()));
+        wait.until(ExpectedConditions.elementToBeClickable(homePage.getSearchBar()));
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
 
         homePage.findGood(SEARCH_PHRASE);
 
@@ -152,8 +161,8 @@ public class MainTest {
 
 
 
-    @AfterEach
-    void teardown() {
-        driver.quit();
-    }
+//    @AfterEach
+//    void teardown() {
+//        driver.quit();
+//    }
 }
