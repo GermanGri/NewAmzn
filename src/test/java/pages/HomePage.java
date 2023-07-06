@@ -15,6 +15,9 @@ public class HomePage {
 
     private static final String DELIVER_TO_XPATH = "//*[@id='nav-global-location-slot']";
 
+    // Flexible xpath
+    private static final String VALIDATION_OF_COUNTRY_DELIVERY = "//span[normalize-space() = 'Deliver to']//following-sibling::span[normalize-space() = '%s']";
+
 
     WebDriver driver;
 
@@ -51,6 +54,10 @@ public class HomePage {
 
     public WebElement cartIcon() {
         return driver.findElement(By.xpath(CART_ICON_XPATH));
+    }
+
+    public boolean isCountryDeliveryCorrect(String countryName) {
+        return driver.findElement(By.xpath(String.format(VALIDATION_OF_COUNTRY_DELIVERY, countryName))).isDisplayed();
     }
 
 }

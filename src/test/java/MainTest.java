@@ -1,9 +1,8 @@
+import helper.Helper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import junit.framework.Assert;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.*;
 import pages.CardDetailsPage;
@@ -15,7 +14,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -36,7 +34,8 @@ public class MainTest {
 
     @Test
     @DisplayName("Validate quantity & sum of Amazon")
-    void test() {
+    void test() throws InterruptedException {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.get(URL);
         HomePage homePage = new HomePage(driver);
         ChooseLocationWindow chooseLocationWindow = new ChooseLocationWindow(driver);
@@ -45,18 +44,17 @@ public class MainTest {
 
         wait.until(ExpectedConditions.elementToBeClickable(homePage.getDeliveryIcon()));
         homePage.clickOnDelivery();
+        Thread.sleep(2000);
 
-//        try {
-//            Thread.sleep(5000);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
 
-        wait.until(ExpectedConditions.elementToBeClickable(chooseLocationWindow.getDeliveryDropdown()));
+        Helper helper = new Helper(driver);
+        helper.waitForElementWillBeClickable(chooseLocationWindow.getDeliveryDropdown(), 10);
+//        wait.until(ExpectedConditions.elementToBeClickable(chooseLocationWindow.getDeliveryDropdown()));
         chooseLocationWindow.clickOnDropdownDelivery();
-        chooseLocationWindow.clickOnPortugal();
+        chooseLocationWindow.clickOnCountry("Portugal");
         chooseLocationWindow.clickOnDoneBtn();
 
+        
 
 //        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
 //                .withTimeout(Duration.ofSeconds(100));
