@@ -10,6 +10,8 @@ public class CartListPage extends HomePage {
 
     private static final String CARD_LIST_XPATH = "//span[@data-component-type='s-search-results']" +
             "//div[@data-component-type='s-search-result']//span[@data-component-type='s-product-image']//a";
+
+
     WebDriver driver;
 
     public CartListPage(WebDriver driver) {

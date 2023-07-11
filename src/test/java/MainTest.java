@@ -2,7 +2,9 @@ import helper.Helper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import junit.framework.Assert;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.*;
 import pages.CardDetailsPage;
@@ -54,27 +56,20 @@ public class MainTest {
         chooseLocationWindow.clickOnCountry("Portugal");
         chooseLocationWindow.clickOnDoneBtn();
 
-        
-
-//        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-//                .withTimeout(Duration.ofSeconds(100));
-
-//      Почему???
-//        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
-        wait.until(ExpectedConditions.elementToBeClickable(homePage.getSearchBar()));
-
+//        ?? ВОПРОС
+//        wait.until(ExpectedConditions.elementToBeClickable(homePage.getSearchBar()));
+//        wait.until(ExpectedConditions.visibilityOf(homePage.getSearchBar()));
 //        try {
 //            Thread.sleep(5000);
 //        } catch (InterruptedException e) {
 //            throw new RuntimeException(e);
 //        }
-
+        Thread.sleep(2000);
         homePage.findGood(SEARCH_PHRASE);
 
         CartListPage cartListPage = new CartListPage(driver);
 
-        searchCard(cartListPage, 1);
+        searchCard(cartListPage, 2);
 
         CardDetailsPage cardDetailsPage = new CardDetailsPage(driver);
         cardDetailsPage.clickToAddToCardButton();
@@ -85,7 +80,7 @@ public class MainTest {
         homePage.isHomePageValid();
         homePage.findGood(SEARCH_PHRASE);
 
-        searchCard(cartListPage, 2);
+        searchCard(cartListPage, 3);
         cardDetailsPage.clickToAddToCardButton();
 
         assertTrue(cardDetailsPage.isCardWasAddedToBasket());
@@ -98,6 +93,12 @@ public class MainTest {
 
         ShoppingCartPage shoppingCartPage = new ShoppingCartPage(driver);
         Assertions.assertEquals("Amazon.com Shopping Cart", shoppingCartPage.pageVerification());
+
+//        shoppingCartPage.getShoppingCart();
+        WebElement element = driver.findElement(By.xpath("//div[@data-asin='B06XWGQWJC']"));
+        WebElement element1 = driver.findElement(By.xpath("//*[@id=\"sc-active-11b7780a-558b-4e5d-90f7-3484b96df236\"]/div[4]/div/div[2]/ul/div/div/div/p/span"))
+
+
 
 
 
@@ -152,10 +153,10 @@ public class MainTest {
     }
 
     //TO DO
-    private static void fidnPrice(ShoppingCartPage shoppingCartPage, int index){
-        Assert.assertEquals("Amazon.com Shopping Cart", shoppingCartPage.pageVerification());
-
-    }
+//    private static void fidnPrice(ShoppingCartPage shoppingCartPage, int index){
+//        Assert.assertEquals("Amazon.com Shopping Cart", shoppingCartPage.pageVerification());
+//
+//    }
 
 
 
