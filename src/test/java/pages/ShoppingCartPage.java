@@ -29,5 +29,9 @@ public class ShoppingCartPage extends HomePage {
         return driver.findElements(By.xpath(SHOPPING_CART_LIST_XPATH));
     }
 
+    public WebElement getFirstPrice() {
+       return driver.findElement(By.xpath("//*[@id='sc-active-11b7780a-558b-4e5d-90f7-3484b96df236']"));
+    };
+
 
 }

@@ -16,6 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 import java.time.Duration;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -90,13 +91,58 @@ public class MainTest {
         homePage.cartIcon().click();
 
 
-
+        // check page
         ShoppingCartPage shoppingCartPage = new ShoppingCartPage(driver);
         Assertions.assertEquals("Amazon.com Shopping Cart", shoppingCartPage.pageVerification());
 
-//        shoppingCartPage.getShoppingCart();
-        WebElement element = driver.findElement(By.xpath("//div[@data-asin='B06XWGQWJC']"));
-        WebElement element1 = driver.findElement(By.xpath("//*[@id=\"sc-active-11b7780a-558b-4e5d-90f7-3484b96df236\"]/div[4]/div/div[2]/ul/div/div/div/p/span"))
+
+        // Найти все элементы <div> с классом "sc-item-price-block-badge"
+        List<WebElement> priceElements = driver.findElements(By.xpath("//div[@class='sc-item-price-block-badge']"));
+
+        String firstPrice1 = null;
+        String secondPrice2 = null;
+        // Проверить, что в списке есть два элемента
+        if (priceElements.size() >= 2)  {
+            // Получить текст с ценой для каждого элемента
+            WebElement firstPriceElement = priceElements.get(0);
+            WebElement secondPriceElement = priceElements.get(1);
+
+            String firstPrice = firstPriceElement.getText();
+            String secondPrice = secondPriceElement.getText();
+
+            firstPrice1 = firstPrice;
+            secondPrice2 = secondPrice;
+
+            System.out.println("Первая цена: " + firstPrice);
+            System.out.println("Вторая цена: " + secondPrice);
+        } else {
+            System.out.println("Недостаточно элементов с ценой");
+        }
+
+        String trimmedFirstPrice = firstPrice1.substring(1);
+        String trimmedSecondPrice = secondPrice2.substring(1);
+
+        double firstPriceNumber = Double.parseDouble(trimmedFirstPrice);
+        double secondPriceNumber = Double.parseDouble(trimmedSecondPrice);
+
+        double summedNumbers = firstPriceNumber + secondPriceNumber;
+
+        System.out.println("Сумма факт:" + summedNumbers);
+        WebElement subtotalFromPageString = driver.findElement(By.xpath("//span[@id='sc-subtotal-amount-activecart']"));
+//        почему не могу тут же обрезать знак доллара?
+        String stringSubtotalFromPageNumber = subtotalFromPageString.getText();
+//        почему два символа??
+        String trimmedStringSubtotalFromPageNumber = stringSubtotalFromPageNumber.substring(2);
+
+        System.out.println("Сумма на сайте:" + trimmedStringSubtotalFromPageNumber);
+        double subtotalFromPageNumber = Double.parseDouble(trimmedStringSubtotalFromPageNumber);
+//        вопрос - если более 30сек тогда Connection reset
+
+        if(summedNumbers == subtotalFromPageNumber){
+            System.out.println("Итоговая сумма верна!");
+        } else {
+            System.out.println("Сумма не верна, ОШИБКА!");
+        }
 
 
 
@@ -114,19 +160,6 @@ public class MainTest {
 
 
 
-////        assertEquals("Added to Cart", firstAdd);
-//        WebElement cart = driver.findElement(By.xpath("//*[@id=\"nav-cart\"]"));
-//        cart.click();
-//        String firstSumUsd = driver.findElement(By.xpath("//*[@id=\"sc-active-Cb2b3402d-2bfc-4e56-98af-517f7c3d19bf\"]/div[4]/div/div[2]/ul/div/p/span")).getText();
-//        String firstSumWithoutUsd = firstSumUsd.substring(1);
-//        double firstSum = Double.parseDouble(firstSumWithoutUsd);
-//        String secondSumUsd = driver.findElement(By.xpath("//*[@id=\"sc-active-C0bac48ad-1be3-474a-b895-9a0b8ae65c8a\"]/div[4]/div/div[2]/ul/div/p/span")).getText();
-//        String secondSumWithoutUsd = secondSumUsd.substring(1);
-//        double secondSum = Double.parseDouble(secondSumWithoutUsd);
-//        String capsSumUsd = driver.findElement(By.xpath("//*[@id=\"sc-subtotal-amount-activecart\"]/span")).getText();
-//        String capsSumWithoutUsd = capsSumUsd.substring(1);
-//        double capsPrice = Double.parseDouble(secondSumWithoutUsd);
-//        assertEquals(capsPrice, (firstSum + secondSum));
 
 //        1. найди мужские кепки
 //        1.1 Выбери первую которая есть в наличии
@@ -152,16 +185,11 @@ public class MainTest {
         cartListPage.getCardItem(index).click();
     }
 
-    //TO DO
-//    private static void fidnPrice(ShoppingCartPage shoppingCartPage, int index){
-//        Assert.assertEquals("Amazon.com Shopping Cart", shoppingCartPage.pageVerification());
-//
-//    }
 
 
 
-//    @AfterEach
-//    void teardown() {
-//        driver.quit();
-//    }
+    @AfterEach
+    void teardown() {
+        driver.quit();
+    }
 }
