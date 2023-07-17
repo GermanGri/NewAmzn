@@ -77,7 +77,6 @@ public class MainTest {
         Assert.assertTrue(cardDetailsPage.isCardWasAddedToBasket());
 
         cardDetailsPage.clickOnLogo();
-
         homePage.isHomePageValid();
         homePage.findGood(SEARCH_PHRASE);
 
@@ -97,10 +96,13 @@ public class MainTest {
 
 
         // Найти все элементы <div> с классом "sc-item-price-block-badge"
-        List<WebElement> priceElements = driver.findElements(By.xpath("//div[@class='sc-item-price-block-badge']"));
+//        List<WebElement> priceElements = driver.findElements(By.xpath("//div[@class='sc-item-price-block-badge']"));
+
+        List<WebElement> priceElements = shoppingCartPage.getPricesElements();
 
         String firstPrice1 = null;
         String secondPrice2 = null;
+
         // Проверить, что в списке есть два элемента
         if (priceElements.size() >= 2)  {
             // Получить текст с ценой для каждого элемента
@@ -146,27 +148,10 @@ public class MainTest {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //        1. найди мужские кепки
 //        1.1 Выбери первую которая есть в наличии
 //        2. добавь две кепки  одной марки в корзину
-//
 //        3. Проверь что общая цена правильная в корзине
-
 //        4. найди женские хуй-знает что например тоже шапки
 //        4 Выбери первую которая есть в наличии
 //        5. Добавь 3 женские шапки в корзину
@@ -184,9 +169,6 @@ public class MainTest {
         Assert.assertFalse(cartListPage.isCardListIsNotEmpty());
         cartListPage.getCardItem(index).click();
     }
-
-
-
 
     @AfterEach
     void teardown() {
