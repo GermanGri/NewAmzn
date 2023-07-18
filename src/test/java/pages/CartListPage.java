@@ -27,6 +27,26 @@ public class CartListPage extends HomePage {
         return getCardListElements().isEmpty();
     }
 
+//    public boolean isCartAvailableForOrder() {
+//        WebElement quantity, addToBasketButton;
+//        return quantity.isDisplayed() && addToBasketButton.isDisplayed() && addToBasketButton.isEnabled();
+//        // check: if we had a quantity and 'add to card' button presented and enable -> true
+//        // if not - false
+//    }
+
+//    public void selectAvailableCart() {
+//        for (int i=0; i<getCardListElements().size(); i++) {
+//            getCardListElements().get(i).click();
+//            if (isCartAvailableForOrder()) {
+//                // select quantity
+//                // cartListPage.getCardItem(index).click();
+//                break;
+//            } else {
+//
+//            }
+//        }
+//    }
+
     public WebElement getCardItem(int index) {
         return getCardListElements().get(index);
     }
